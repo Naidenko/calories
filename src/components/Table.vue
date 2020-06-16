@@ -16,22 +16,22 @@
             <div class="control__wrap">
                 <button type="button" class="control__delete">Delete</button>
                 <div class="select-wrap">
-                    <select class="control__show-list">
-                        <option class="control__show-item">10 Per Page</option>
-                        <option class="control__show-item">15 Per Page</option>
-                        <option class="control__show-item">20 Per Page</option>
+                    <select class="control__show-list" v-model="perPage">
+                        <option class="control__show-item" :value="10">10 Per Page</option>
+                        <option class="control__show-item" :value="15">15 Per Page</option>
+                        <option class="control__show-item" :value="20">20 Per Page</option>
                     </select>
                 </div>
 
                 <div class="control__page">
-                    <button type="button" class="page__prev">
+                    <button type="button" class="page__prev" @click="prevPage" :disabled="!canGoPrevPage">
                         <span class="visually-hidden">Prev</span>
                         <svg class="page__prev-arrow">
                             <use xlink:href="#arrow"></use>
                         </svg>
                     </button>
-                    <p class="page__field">1-10 of 25</p>
-                    <button type="button" class="page__next">
+                    <p class="page__field">{{perPage * (page - 1) + 1}}-{{perPage * page}} of {{$store.state.data.length}}</p>
+                    <button type="button" class="page__next" @click="nextPage" :disabled="!canGoNextPage">
                         <span class="visually-hidden">Next</span>
                         <svg class="page__next-arrow">
                             <use xlink:href="#arrow"></use>
@@ -77,7 +77,7 @@
         <table class="table">
             <tr class="caption-line">
                 <th>
-                    <input class="checkbox__item" type="checkbox" name="all" id="all-product">
+                    <input class="checkbox__item" v-model="isAllSelected" type="checkbox" name="all" id="all-product">
                     <label for="all-product" class="table__product"></label>
                 </th>
                 <th>Product(100g serving)</th>
@@ -87,29 +87,17 @@
                 <th>Protein (g)</th>
                 <th>Iron (%)</th>
             </tr>
-            <tr class="table-line">
+            <tr class="table-line" v-for="(row,key) in visibleRows" :key="key">
                 <td>
-                    <input class="checkbox__item" type="checkbox" name="frozen-yogurt" id="yogurt">
-                    <label for="yogurt" class="table__product"></label>
+                    <input v-model="selected" class="checkbox__item" type="checkbox" name="selected" :value="row.id" :id="row.id">
+                    <label :for="row.id" class="table__product"></label>
                 </td>
-                <td>Frozen Yogurt</td>
-                <td>125</td>
-                <td>224</td>
-                <td>486</td>
-                <td>696</td>
-                <td>536</td>
-            </tr>
-            <tr class="table-line">
-                <td>
-                    <input class="checkbox__item" type="checkbox" name="ice-cream-sandwich" id="ice-cream-sandwich">
-                    <label for="ice-cream-sandwich" class="table__product"></label>
-                </td>
-                <td>Ice cream sandwich</td>
-                <td>851</td>
-                <td>519</td>
-                <td>735</td>
-                <td>461</td>
-                <td>366</td>
+                <td>{{row.product}}</td>
+                <td>{{row.calories}}</td>
+                <td>{{row.fat}}</td>
+                <td>{{row.carbs}}</td>
+                <td>{{row.protein}}</td>
+                <td>{{row.iron}}</td>
             </tr>
         </table>
     </section>
@@ -120,6 +108,9 @@
         name: "Table",
         data() {
             return {
+                page: 1,
+                perPage: 10,
+                selected: [],
                 columns: {
 
                 }
@@ -127,18 +118,47 @@
         },
         computed: {
             visibleRows() {
-                return [];
+                //todo sort
+                return  this.$store.state.data.slice().splice(this.perPage * (this.page - 1), this.perPage)
             },
             visibleColumns() {
                 return [];
             },
-            rows() {
-                return this.$store.state.data;
+            isAllSelected: {
+                get() {
+                    return this.selected.length === this.perPage;
+                },
+                set() {
+                    if(this.isAllSelected) {
+                        this.selected.splice(0, this.selected.length)
+                    } else {
+                        for (let i = 0; i < this.visibleRows.length; i++) {
+                            if(this.selected.indexOf(this.visibleRows[i].id) === -1) {
+                                this.selected.push(this.visibleRows[i].id);
+                            }
+                        }
+                    }
+                }
+            },
+            canGoPrevPage() {
+                return this.page > 1;
+            },
+            canGoNextPage() {
+                return this.page < Math.ceil(this.$store.state.data.length / this.perPage);
             }
         },
         methods: {
-            selectAllEntries() {
-
+            prevPage() {
+                if(this.canGoPrevPage) {
+                    this.page--;
+                    this.selected.splice(0, this.selected.length)
+                }
+            },
+            nextPage() {
+                if(this.canGoNextPage) {
+                    this.page++;
+                    this.selected.splice(0, this.selected.length)
+                }
             },
             selectAllColumns() {
 
