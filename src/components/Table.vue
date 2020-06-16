@@ -39,14 +39,37 @@
                     </button>
                 </div>
                 <div class="select-wrap">
-                    <select class="control__select-list">
-                        <option class="control__select-item">6 columns selected</option>
-                        <option class="control__select-item">5 columns selected</option>
-                        <option class="control__select-item">4 columns selected</option>
-                        <option class="control__select-item">3 columns selected</option>
-                        <option class="control__select-item">2 columns selected</option>
-                        <option class="control__select-item">1 columns selected</option>
-                    </select>
+                    <button type="button" class="control__select">6 columns selected</button>
+                    <div class="control__select-list">
+                        <div class="control__select-wrap">
+                            <input type="checkbox" class="control__select-checkbox" id="all" name="all">
+                            <label for="all" class="control__select-label">Select All</label>
+                        </div>
+                        <div class="control__select-wrap">
+                            <input type="checkbox" class="control__select-checkbox" id="product" name="product">
+                            <label for="product" class="control__select-label">Product (100g serving)</label>
+                        </div>
+                        <div class="control__select-wrap">
+                            <input type="checkbox" class="control__select-checkbox" id="calories" name="calories">
+                            <label for="calories" class="control__select-label">Calories</label>
+                        </div>
+                        <div class="control__select-wrap">
+                            <input type="checkbox" class="control__select-checkbox" id="fat" name="fat">
+                            <label for="fat" class="control__select-label">Fat (g)</label>
+                        </div>
+                        <div class="control__select-wrap">
+                            <input type="checkbox" class="control__select-checkbox" id="carbs" name="carbs">
+                            <label for="carbs" class="control__select-label">Carbs (g)</label>
+                        </div>
+                        <div class="control__select-wrap">
+                            <input type="checkbox" class="control__select-checkbox" id="protein" name="protein">
+                            <label for="protein" class="control__select-label">Protein (g)</label>
+                        </div>
+                        <div class="control__select-wrap">
+                            <input type="checkbox" class="control__select-checkbox" id="iron" name="iron">
+                            <label for="iron" class="control__select-label">Iron (%)</label>
+                        </div>
+                    </div>
                 </div>
 
             </div>
@@ -54,9 +77,10 @@
         <table class="table">
             <tr class="caption-line">
                 <th>
-                    <input class="checkbox__item" type="checkbox" name="all" id="product">
-                    <label for="product" class="table__product">Product(100g serving)</label>
+                    <input class="checkbox__item" type="checkbox" name="all" id="all-product">
+                    <label for="all-product" class="table__product"></label>
                 </th>
+                <th>Product(100g serving)</th>
                 <th>Calories</th>
                 <th>Fat (g)</th>
                 <th>Carbs (g)</th>
@@ -66,8 +90,9 @@
             <tr class="table-line">
                 <td>
                     <input class="checkbox__item" type="checkbox" name="frozen-yogurt" id="yogurt">
-                    <label for="yogurt" class="table__product">Frozen Yogurt</label>
+                    <label for="yogurt" class="table__product"></label>
                 </td>
+                <td>Frozen Yogurt</td>
                 <td>125</td>
                 <td>224</td>
                 <td>486</td>
@@ -77,8 +102,9 @@
             <tr class="table-line">
                 <td>
                     <input class="checkbox__item" type="checkbox" name="ice-cream-sandwich" id="ice-cream-sandwich">
-                    <label for="ice-cream-sandwich" class="table__product">Ice cream sandwich</label>
+                    <label for="ice-cream-sandwich" class="table__product"></label>
                 </td>
+                <td>Ice cream sandwich</td>
                 <td>851</td>
                 <td>519</td>
                 <td>735</td>
@@ -105,10 +131,18 @@
             },
             visibleColumns() {
                 return [];
+            },
+            rows() {
+                return this.$store.state.data;
             }
         },
         methods: {
+            selectAllEntries() {
 
+            },
+            selectAllColumns() {
+
+            }
         }
     }
 </script>
