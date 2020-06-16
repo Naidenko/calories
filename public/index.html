@@ -4,8 +4,10 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title><%= htmlWebpackPlugin.options.title %></title>
+    <link rel="stylesheet" href="/css/normalize.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <title>Calories</title>
   </head>
   <body>
     <noscript>
@@ -13,5 +15,10 @@
     </noscript>
     <div id="app"></div>
     <!-- built files will be auto injected -->
+    <svg style="display: none;">
+      <svg id="arrow" viewBox="0 0 5 8" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" d="M4 0L0 4L4 8L4.9375 7.0625L1.875 4L4.9375 0.9375L4 0Z" fill="#333333"/>
+      </svg>
+    </svg>
   </body>
 </html>
