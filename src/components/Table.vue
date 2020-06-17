@@ -5,7 +5,7 @@
             <div class="control__wrap">
                 <h3 class="sorting__title">Sorting by:</h3>
                 <ul class="sorting__list">
-                    <li class="sorting__item">Product (100g serving)</li>
+                    <li class="sorting__item sorting__item--active">Product (100g serving)</li>
                     <li class="sorting__item">Calories</li>
                     <li class="sorting__item">Fat (g)</li>
                     <li class="sorting__item">Carbs (g)</li>
@@ -14,9 +14,12 @@
                 </ul>
             </div>
             <div class="control__wrap">
-                <button type="button" class="control__delete">Delete</button>
+                <button type="button" class="control__delete button" :disabled="selected.length === 0">
+                    Delete
+                    <span class="control__delete-quantity" v-show="selected.length > 0">({{selected.length}})</span>
+                </button>
                 <div class="select-wrap">
-                    <select class="control__show-list" v-model="perPage">
+                    <select class="control__show-list button" v-model="perPage">
                         <option class="control__show-item" :value="10">10 Per Page</option>
                         <option class="control__show-item" :value="15">15 Per Page</option>
                         <option class="control__show-item" :value="20">20 Per Page</option>
@@ -24,14 +27,14 @@
                 </div>
 
                 <div class="control__page">
-                    <button type="button" class="page__prev" @click="prevPage" :disabled="!canGoPrevPage">
+                    <button type="button" class="page__prev button" @click="prevPage" :disabled="!canGoPrevPage">
                         <span class="visually-hidden">Prev</span>
                         <svg class="page__prev-arrow">
                             <use xlink:href="#arrow"></use>
                         </svg>
                     </button>
                     <p class="page__field">{{perPage * (page - 1) + 1}}-{{perPage * page}} of {{$store.state.data.length}}</p>
-                    <button type="button" class="page__next" @click="nextPage" :disabled="!canGoNextPage">
+                    <button type="button" class="page__next button" @click="nextPage" :disabled="!canGoNextPage">
                         <span class="visually-hidden">Next</span>
                         <svg class="page__next-arrow">
                             <use xlink:href="#arrow"></use>
@@ -39,8 +42,8 @@
                     </button>
                 </div>
                 <div class="select-wrap">
-                    <button type="button" class="control__select">6 columns selected</button>
-                    <div class="control__select-list">
+                    <button type="button" @click="isSelectedFilterOpen=!isSelectedFilterOpen" class="control__select button">6 columns selected</button>
+                    <div class="control__select-list" v-show="isSelectedFilterOpen">
                         <div class="control__select-wrap">
                             <input type="checkbox" class="control__select-checkbox" id="all" name="all">
                             <label for="all" class="control__select-label">Select All</label>
@@ -111,6 +114,7 @@
                 page: 1,
                 perPage: 10,
                 selected: [],
+                isSelectedFilterOpen: false,
                 columns: {
 
                 }

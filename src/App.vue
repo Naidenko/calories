@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" class="main">
     <table-component></table-component>
     <error-popup></error-popup>
   </div>

@@ -1,11 +1,9 @@
 <template>
-    <div v-show="isVisible">
-        {{errorMessage}}
-        <p>
-            Please try again later.
-        </p>
-        <button type="button" v-show="$store.state.errorAction === 'load'" @click="hidePopup() && reload()">Reload</button>
-        <button type="button" @click="hidePopup()">Close</button>
+    <div v-show="isVisible" class="error-popup">
+        <p class="error__text">{{errorMessage}}</p>
+        <p class="error__text">Please try again</p>
+        <button type="button" class="error__retry button" v-show="$store.state.errorAction === 'load'" @click="hidePopup() && reload()">Reload</button>
+        <button type="button" class="error__close button" @click="hidePopup()">Close</button>
     </div>
 
 </template>
@@ -32,13 +30,3 @@
         }
     }
 </script>
-
-<style scoped>
-
-    div {
-        position: fixed;
-        top: 50%;
-        left: 30%;
-    }
-
-</style>
