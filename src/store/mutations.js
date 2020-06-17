@@ -9,12 +9,15 @@ export default {
     setErrorVisible(state, payload) {
         state.errorVisible = payload.errorVisible;
     },
-    deleteById(state, payload) {
-        for (let i = 0; i < state.data.length; i++) {
-            if(state.data[i].id === payload.id) {
-                state.data.splice(i, 1);
-                break;
+    deleteByIds(state, payload) {
+        for (let i = 0; i < payload.ids.length; i++) {
+            for (let j = 0; j < state.data.length; j++) {
+                if(state.data[j].id === payload.ids[i]) {
+                    state.data.splice(j, 1);
+                    break;
+                }
             }
         }
+
     }
 }

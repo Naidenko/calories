@@ -1,8 +1,7 @@
 <template>
-    <div v-show="isVisible" class="error-popup">
+    <div v-show="isVisible" class="error-delete-popup">
         <p class="error__text">{{errorMessage}}</p>
-        <p class="error__text">Please try again</p>
-        <button type="button" class="error__retry button" @click="hidePopup() && reload()">Reload</button>
+        <p class="error__text">Please delete again</p>
         <button type="button" class="error__close button" @click="hidePopup()">Close</button>
     </div>
 
@@ -10,19 +9,16 @@
 
 <script>
     export default {
-        name: "ErrorPopup",
+        name: "DeleteErrorPopup",
         methods: {
             hidePopup() {
                 this.$store.dispatch('hidePopup');
                 return true;
-            },
-            reload() {
-                this.$store.dispatch('load');
             }
         },
         computed: {
             isVisible() {
-                return this.$store.state.errorVisible && this.$store.state.errorAction === 'load';
+                return this.$store.state.errorVisible && this.$store.state.errorAction === 'delete';
             },
             errorMessage() {
                 return this.$store.state.error;
