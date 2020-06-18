@@ -424,6 +424,7 @@ body {
 .table__delete {
     display: flex;
     align-items: center;
+    cursor: pointer;
 }
 
 .delete-picture {

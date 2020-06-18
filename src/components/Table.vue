@@ -154,6 +154,7 @@
                 mainColumnIndex: null,
                 sorting: null,
                 deletingIds: [],
+                deletingSingle: true,
             }
         },
         computed: {
@@ -229,7 +230,7 @@
                 return this.page < Math.ceil(this.$store.state.data.length / this.perPage);
             },
             deletePopupStyles() {
-                if(this.deletingIds.length > 1) {
+                if(!this.deletingSingle) {
                     return {
                         top: '200px',
                         right: 'calc(50% - 127px)',
@@ -281,13 +282,21 @@
                 this.$store.dispatch('delete', this.deletingIds).then(()=>{
                     if(this.deletingIds.length > 1) {
                         this.selected.splice(0, this.selected.length);
+                    } else {
+                        let index = this.selected.indexOf(this.deletingIds[0]);
+                        if(index > -1) {
+                            this.selected.splice(index, 1);
+                        }
                     }
                     this.deletingIds.splice(0, this.deletingIds.length);
                 })
             },
             confirmDelete(ids = null) {
                 if(ids === null) {
+                    this.deletingSingle = false;
                     ids = this.selected;
+                } else {
+                    this.deletingSingle = true;
                 }
                 this.deletingIds.splice(0, this.deletingIds.length);
                 for (let i = 0; i < ids.length; i++) {
